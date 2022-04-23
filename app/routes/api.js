@@ -1,7 +1,6 @@
 import express from "express"
 import cors from 'cors'
 import dotenv from 'dotenv'
-import BasicService from "../services/basic.js"
 dotenv.config()
 const corsOptions = {
     origin: process.env.ORIGIN,
@@ -10,9 +9,8 @@ const corsOptions = {
 const app = express()
 app.use(cors());
 
-app.post('/bmi', cors(corsOptions),(req, res) => {
-    const service = new BasicService()
-    res.status(200).json(service.getBmi(req, res))
+app.get('/now', cors(corsOptions),(_req, res) => {
+    res.json({"now": new Date().toLocaleString()})
 })
 
 export default app
