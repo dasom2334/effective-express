@@ -2,6 +2,7 @@ import express from "express"
 import cors from 'cors'
 import dotenv from 'dotenv'
 import passport from 'passport'
+import UserService from "../services/user.js"
 
 dotenv.config()
 const mongoUri = process.env.MONGO_URI
@@ -22,6 +23,18 @@ app.use(function (_req, res, next) {
     next();
 });
 app.post('/join', cors(corsOptions), (req, res) => {
+    console.log("5. 라우터진입")
     UserService().join(req, res)
+})
+app.post('/login', cors(corsOptions), (req, res) => {
+    console.log("5. 로그인진입")
+    UserService().login(req, res)
+})
+app.post('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
+    UserService().logout(req, res)
+})
+app.get('/getUsers', cors(corsOptions), (req, res) => {
+    console.log('hihi')
+    UserService().getUsers(req, res)
 })
 export default app
