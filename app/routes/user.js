@@ -33,7 +33,9 @@ app.post('/login', cors(corsOptions), (req, res) => {
 app.post('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
     UserService().logout(req, res)
 })
-app.get('/getUsers', cors(corsOptions), (req, res) => {
+// app.get('/getUsers',  cors(corsOptions), passport.authenticate('jwt', {session: false}),  (req, res) => {
+app.get('/getUsers',  cors(corsOptions), passport.authenticate('jwt', {session: false}), (req, res) => {
+// app.get('/getUsers',  cors(corsOptions), (req, res) => {
     console.log('hihi')
     UserService().getUsers(req, res)
 })

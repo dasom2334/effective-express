@@ -12,6 +12,8 @@ const applyPassport = (passport, _secretOrKey) => {
             .findOne({
                 userid: jwt_payload.id
             }, function (err, user) {
+                console.log(err)
+                console.log(user)
                 if (err) {
                     return done(err, false);
                 }
@@ -21,6 +23,11 @@ const applyPassport = (passport, _secretOrKey) => {
                     done(null, false);
                 }
             });
+        // console.log(passport)
+        // console.log(_secretOrKey)
+        // console.log(jwtOptions)
+        console.log('----------')
+        // console.log(new Strategy(jwtOptions, verifyUser))
     }
     passport.use(new Strategy(jwtOptions, verifyUser));
     return passport
