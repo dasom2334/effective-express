@@ -5,6 +5,7 @@ import applyDotenv from "../lambdas/applyDotenv.js";
 
 export default function UserModel(mongoose) {
   const { jwtSecret } = applyDotenv(dotenv);
+  const saltRounds = 10;
   const userSchema = mongoose.Schema({
     userid: String,
     password: String,
@@ -20,19 +21,15 @@ export default function UserModel(mongoose) {
     console.log(" >> plainPassword >> " + plainPassword);
     console.log(" >> this.password >> " + this.password);
     let isMatch = false;
-    if (plainPassword === this.password) {
-      console.log(" >> plainPassword===this.password >> ");
-      isMatch = true;
-    } else {
-      console.log(" >> plainPassword !==this.password >> ");
-      isMatch = false;
-    }
+
     bcrypt.compare(plainPassword, this.password, function (err, _isMatch) {
+      console.log(err);
+      console.log(_isMatch);
+      console.log('hello');
       if (err) {
         return cb(err);
       } else {
-        console.log(" >> isMatch >> " + isMatch);
-        return cb(null, isMatch);
+        return cb(null, _isMatch);
       }
     });
   };

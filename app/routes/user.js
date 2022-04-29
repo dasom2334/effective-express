@@ -33,9 +33,13 @@ app.post('/login', cors(corsOptions), (req, res) => {
 app.post('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
     UserService().logout(req, res)
 })
-app.post('/delUser', cors(corsOptions), (req, res) => {
+app.post('/delUser', cors(corsOptions), passport.authenticate('jwt', {session: false}), (req, res) => {
     console.log('deldel')
     UserService().delUser(req, res)
+})
+app.post('/editUser', cors(corsOptions), (req, res) => {
+    console.log('editedit')
+    UserService().editUser(req, res)
 })
 // app.get('/getUsers',  cors(corsOptions), passport.authenticate('jwt', {session: false}),  (req, res) => {
 app.get('/getUsers',  cors(corsOptions), passport.authenticate('jwt', {session: false}), (req, res) => {
