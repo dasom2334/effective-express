@@ -96,6 +96,36 @@ export default function UserService() {
             req.logout()
             res.json({msg: 'LOGOUT'})
         },
+        async delUser(req, res) {
+            console.log('delete')
+            User.findOne({
+                userid: req.body.userid
+            }, function (err, user) {
+                if (err) 
+                    throw err
+                if (!user) {
+                    res
+                        .status(401)
+                        .send({success: false, message: '해당 ID가 존재하지 않습니다'});
+                } else {
+                    console.log(' ### 로그인 정보 : ' + JSON.stringify(user))
+                    user.comparePassword(req.body.password, function (_err, isMatch) {
+                        if (!isMatch) {
+                            res
+                                .status(401)
+                                .send({message: 'FAIL'});
+                        } else {
+                            console.log(user);
+                            user.deleteOne()
+                            .exec((_err, user) => {
+                                res.status(200)
+                            });
+
+                        }
+                    })
+                }
+            })
+        },
         getUserById(req, res) {
             const userid = req.body.userid
             User.findById({userid: userid})
